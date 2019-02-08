@@ -1,7 +1,7 @@
 {
   "name": "monitoring-ui",
   "version": "1.0.0",
-  "description": "services UI libraryM",
+  "description": "Monitoring services UI library",
   "author": "",
   "license": "Commercial",
   "repository": "/monitoring-ui",
@@ -22,6 +22,10 @@
     "deploy": "gh-pages -d example/build"
   },
   "peerDependencies": {
+    "react-stomp": "^4.1.0",
+    "babel-polyfill": "^6.26.0",
+    "antd": "^3.13.2",
+    "moment": "^2.22.2",
     "prop-types": "^15.5.4",
     "react": "^15.0.0 || ^16.0.0",
     "react-dom": "^15.0.0 || ^16.0.0"
@@ -57,5 +61,6 @@
   },
   "files": [
     "dist"
-  ]
+  ],
+  "dependencies": {}
 }

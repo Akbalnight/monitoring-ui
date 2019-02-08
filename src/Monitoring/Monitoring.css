@@ -1,0 +1,24 @@
+.monitoring-services-modal .line-service{
+    display: flex;
+    border-bottom: 1px solid #e8e8e8;
+    padding: 3px 0;
+    font-size: 12px;
+}
+
+.monitoring-services-modal .line-service .line-service-head{
+    width: 250px;
+}
+
+.monitoring-services-modal .line-service .line-service-value-true{
+    color: green;
+    display: flex;
+    flex-grow: 1;
+}
+.monitoring-services-modal .line-service .line-service-value-true div:first-child,
+.monitoring-services-modal .line-service .line-service-value-true div:last-child{
+    width: 100px;
+}
+
+.monitoring-services-modal .line-service .line-service-value-false {
+    color: red;
+}

@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 
-import ExampleComponent from 'monitoring-ui'
+import { Monitoring } from 'monitoring-ui'
 
 export default class App extends Component {
   render () {
     return (
       <div>
-        <ExampleComponent text='Modern React component module' />
+        <Monitoring wsURL='/monitoring' topicURL='/topic/services'/>
       </div>
     )
   }
