@@ -1,13 +1,35 @@
 import React, { Component } from 'react'
 
-import { Monitoring } from 'monitoring-ui'
+import { Monitoring, MonitoringConnect, CheckVisibleItem } from 'monitoring-ui'
 
-export default class App extends Component {
+import {Menu} from 'antd';
+
+class App extends Component {
   render () {
     return (
       <div>
-        <Monitoring wsURL='/monitoring' topicURL='/topic/services'/>
+        <MonitoringConnect />
+
+        <Menu>
+
+          {/*<CheckVisibleItem serviceKeys={['statement', 'protocol']}>*/}
+          <Menu.Item key="1" disabled={true}>
+
+              One
+
+          </Menu.Item>
+          {/*</CheckVisibleItem>*/}
+
+          <Menu.Item key="2">
+            <CheckVisibleItem serviceKeys={['statement', 'protocol']}>
+              Two
+            </CheckVisibleItem>
+          </Menu.Item>
+        </Menu>
+
+        <Monitoring wsURL='/color' topicURL='/topic/color' />
       </div>
     )
   }
 }
+export default App

@@ -9,7 +9,10 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "^1.1.4",
-    "monitoring-ui": "file:.."
+    "monitoring-ui": "file:..",
+    "antd": "3.10.1",
+    "redux": "4.0.0",
+    "redux-thunk": "2.3.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -17,5 +20,5 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:9389"
+  "proxy": "http://10.5.121.125:8802"
 }
