@@ -1,10 +1,11 @@
-import React, { Component } from 'react'
-import {connect} from 'react-redux'
+import React from 'react'
 
-class CheckVisibleItem extends Component {
-  render() {
-    var serviceKeys = this.props.serviceKeys
+function CheckVisibleItem (servicesState, serviceKeys){
+    var serviceKeys = serviceKeys
     var result = []
+
+    // console.log('servicesState: ', servicesState)
+    // console.log('serviceKeys: ', serviceKeys);
 
     // Перебор массивов ключей
     for (var k = 0; k < serviceKeys.length; k++) {
@@ -16,8 +17,8 @@ class CheckVisibleItem extends Component {
         var key = oneListKeys[i]
 
         // Перебор сервисов в сторе
-        for (var j = 0; j < this.props.servicesStateStore.servicesState.length; j++) {
-          var service = this.props.servicesStateStore.servicesState[j]
+        for (var j = 0; j < servicesState.length; j++) {
+          var service = servicesState[j]
 
           // Поиск ключей в сторе
           if (key === service.serviceKey) oneResult.push(service.serviceStatus)
@@ -40,16 +41,10 @@ class CheckVisibleItem extends Component {
     // console.log('subRes: ', subRes);
     // Посик итоговых результатов
     for (var i = 0; i < subRes.length; i++) {
-      if (subRes[i]) return this.props.children
+      if (subRes[i]) return true
     }
 
-    return null
-  }
-
+    return false
 }
 
-const mapStateToProps = (store) => ({
-  servicesStateStore: store.services
-})
-
-export default connect(mapStateToProps)(CheckVisibleItem)
+export default CheckVisibleItem
