@@ -75,7 +75,7 @@ class Monitoring extends Component {
 }
 
 const mapStateToProps = (store) => ({
-  servicesStateStore: store.ServicesReducer
+  servicesStateStore: store.services
 })
 
 export default connect(mapStateToProps, {setStateServices})(Monitoring)

@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux'
 
-import { ServicesReducer } from 'monitoring-ui'
+import { services } from 'monitoring-ui'
 
 const reducer = combineReducers({
-  ServicesReducer
+  services
 })
 
 export default reducer

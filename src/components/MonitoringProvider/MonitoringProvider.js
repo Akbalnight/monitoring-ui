@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {setStateServices} from '../../actions'
 import {connect} from 'react-redux'
+import services from "../../reducers";
 
-class MonitoringConnect extends Component {
+class MonitoringProvider extends Component {
   static propTypes = {
     pollURL: PropTypes.string,
     listURL: PropTypes.string
@@ -31,12 +32,12 @@ class MonitoringConnect extends Component {
   }
 
   render() {
-    return null
+    return this.props.children
   }
 }
 
 const mapStateToProps = (store) => ({
-  servicesStateStore: store.ServicesReducer
+  servicesStateStore: store.services
 })
 
-export default connect(mapStateToProps, {setStateServices})(MonitoringConnect)
+export default connect(mapStateToProps, {setStateServices})(MonitoringProvider)
