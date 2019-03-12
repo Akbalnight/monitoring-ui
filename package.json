@@ -23,7 +23,6 @@
   },
   "peerDependencies": {
     "antd": "3.10.1",
-    "react-stomp": "^4.1.0",
     "moment": "^2.22.2",
     "prop-types": "^15.5.4",
     "react": "^15.0.0 || ^16.0.0",
@@ -55,7 +54,6 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "^2.1.5",
-    "react-stomp": "4.1.0",
     "react-redux": "5.0.7",
     "redux": "4.0.0",
     "redux-thunk": "2.3.0",

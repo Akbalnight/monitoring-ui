@@ -11,7 +11,7 @@ class App extends Component {
     }
   render () {
     return (
-        <MonitoringProvider>
+        <MonitoringProvider listURL ='/monitoring/list'>
           <div>
             <Menu>
               { CheckVisibleItem(this.props.servicesStateStore.servicesState, [['statement', 'protocol'], ['reports', 'reglament']])
