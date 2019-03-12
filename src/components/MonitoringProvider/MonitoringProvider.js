@@ -36,7 +36,7 @@ class MonitoringProvider extends Component {
         requestUrl = this.props.pollURL ? this.props.pollURL : '/monitoring/list/poll'
         timeoutRequest = 0
       })
-      .catch(error => this.faildPoll(error))
+      .catch(error => { this.faildPoll(error); timeoutRequest = 100000 })
       // .finally(()=> setTimeout(this.run(this.props.pollURL ? this.props.pollURL : '/monitoring/list/poll').bind(this), timeoutRequest))
       .finally(()=> setTimeout(this.run().bind(this), timeoutRequest))
 
