@@ -26,8 +26,8 @@ class MonitoringProvider extends Component {
       .then(response => {
         if(response.status !== 200) {
           timeoutRequest = 10000
-          // console.log('Then failed', response);
-          // console.log('timeoutRequest: ', timeoutRequest);
+          console.log('Then failed', response);
+          console.log('timeoutRequest: ', timeoutRequest);
         }
         else return response.json()
       })
@@ -36,8 +36,8 @@ class MonitoringProvider extends Component {
         data ? this.props.setStateServices({servicesState: data}) : this.props.setStateServices({servicesState: []})
         requestUrl = this.props.pollURL ? this.props.pollURL : '/monitoring/list/poll'
         timeoutRequest = 0
-        // console.log('Then successfully', response);
-        // console.log('timeoutRequest: ', timeoutRequest);
+        console.log('Then successfully', response);
+        console.log('timeoutRequest: ', timeoutRequest);
       })
       .catch(error => { timeoutRequest = 10000; this.faildPoll(error); })
       // .finally(()=> setTimeout(this.run(this.props.pollURL ? this.props.pollURL : '/monitoring/list/poll').bind(this), timeoutRequest))
@@ -52,8 +52,8 @@ class MonitoringProvider extends Component {
   }
 
   faildPoll(error) {
-    // console.log('catch failed', error)
-    // console.log('timeoutRequest: ', timeoutRequest);
+    console.log('catch failed', error)
+    console.log('timeoutRequest: ', timeoutRequest);
   }
 
   render() {
