@@ -1,32 +1,25 @@
 import React, { Component } from 'react'
+import { MonitoringProvider, MonitoringContext } from 'monitoring-ui'
+import 'antd/dist/antd.css'
 
-import { Monitoring, MonitoringProvider, CheckVisibleItem } from 'monitoring-ui'
-
-import {Menu} from 'antd'
-import {connect} from "react-redux";
+let isStarted = false
 
 class App extends Component {
-    componentDidMount() {
-        // MonitoringConnect()
-    }
   render () {
     return (
-        <MonitoringProvider listURL ='/monitoring/list'>
-          <div>
-            <Menu>
-              { CheckVisibleItem(this.props.servicesStateStore.servicesState, [['statement', 'protocol'], ['reports', 'reglament']])
-                ? <Menu.Item> Two </Menu.Item>
-                  : null }
-              {/*</CheckVisibleItem>*/}
-            </Menu>
-            <Monitoring />
-          </div>
-        </MonitoringProvider>
+      <MonitoringProvider>
+        <MonitoringContext.Consumer>
+          {({ monitoringItems, isMonitoring, startMonitoring, endMonitoring }) => {
+            if (!isStarted) {
+              startMonitoring()
+              isStarted = true
+            };
+            return <h1>Monitroing</h1>
+          }}
+        </MonitoringContext.Consumer>
+      </MonitoringProvider>
     )
   }
 }
-const mapStateToProps = (store) => ({
-    servicesStateStore: store.services
-})
 
-export default connect(mapStateToProps)(App)
+export default App

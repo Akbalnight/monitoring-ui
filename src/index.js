@@ -1,8 +1,2 @@
-
-export { default as Monitoring } from './components/Monitoring/Monitoring'
-
-export { default as MonitoringProvider } from './components/MonitoringProvider/MonitoringProvider'
-
-export CheckVisibleItem from './components/CheckVisibleItem/CheckVisibleItem'
-
-export services from './reducers'
+export { MonitoringContext } from './context'
+export { MonitoringProvider } from './components/MonitoringProvider'

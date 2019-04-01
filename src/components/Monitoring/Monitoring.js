@@ -1,8 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-
 import {Modal, Button} from 'antd'
-import 'antd/dist/antd.css'
 import './Monitoring.css'
 
 import {connect} from 'react-redux'
