@@ -17,8 +17,6 @@ class MonitoringProvider extends Component {
     children: null
   };
 
-
-
   constructor(props) {
     super(props)
     this.startMonitoring = this.startMonitoring.bind(this)
@@ -37,16 +35,11 @@ class MonitoringProvider extends Component {
       this.setState({
         isMonitoring: true
       })
+
       this.templateFetch(this.props.listURL)
-        .then(() => {
-          if (this.state.isMonitoring) {
-            this.poll()
-          }
-        })
+        .then(this.poll)
         .catch(() => {
-          if (this.state.isMonitoring) {
-            setTimeout(this.startMonitoring, this.props.reconnectTimeout)
-          }
+          setTimeout(this.startMonitoring, this.props.reconnectTimeout)
         })
     }
   }
@@ -58,12 +51,11 @@ class MonitoringProvider extends Component {
   }
 
   poll() {
-    return this.templateFetch(this.props.pollURL)
-      .then(() => {
-        if (this.state.isMonitoring) {
-          this.poll()
-        }
-      })
+    if (this.state.isMonitoring) {
+      return this.templateFetch(this.props.pollURL)
+        .then(this.poll)
+        .catch(this.poll)
+    }
   }
 
   templateFetch(url) {
@@ -105,4 +97,4 @@ class MonitoringProvider extends Component {
   }
 }
 
-export default MonitoringProvider;
+export default MonitoringProvider

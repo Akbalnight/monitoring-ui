@@ -1,29 +1,60 @@
 # monitoring-ui
 
-> services UI libraryM
-
-[![NPM](https://img.shields.io/npm/v/monitoring-ui.svg)](https://www.npmjs.com/package/monitoring-ui) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-
-## Install
-
-```bash
-npm install --save monitoring-ui
-```
-
 ## Usage
+Данный компонент работает через React Context API.
 
-```jsx
+## Пример использования
+```
 import React, { Component } from 'react'
+import { MonitoringProvider, MonitoringContext, DefaultMonitoringManager } from 'monitoring-ui'
 
-import MyComponent from 'monitoring-ui'
+let isStarted = false
 
-class Example extends Component {
+class App extends Component {
   render () {
     return (
-      <MyComponent />
+      <MonitoringProvider>
+        <MonitoringContext.Consumer>
+          {({ monitoringItems, isMonitoring, startMonitoring, endMonitoring }) => {
+            if (!isStarted) {
+              startMonitoring()
+              isStarted = true
+            };
+            return (
+              <DefaultMonitoringManager>
+                <Button>
+                  Показать
+                </Button>
+              </DefaultMonitoringManager>
+            )
+          }}
+        </MonitoringContext.Consumer>
+      </MonitoringProvider>
     )
   }
 }
+
+export default App
+
+```
+В болшинстве случаем start/end monitoring будет props'ом какго-нибудь вашего компонента.
+
+Например
+```
+  import {MonitoringProvider, MonitoringContext} from 'monitoring-ui'
+
+  <MonitoringProvider>
+    <MonitoringContext.Consumer>
+      {({ startMonitoring, endMonitoring }) => {
+        return (
+          <AuthComponent
+            onAthSuccess={startMonitoring}
+            onLogout={endMonitoring}
+          />
+        )
+      }}
+    </MonitoringContext.Consumer>
+  </MonitoringProvider>
 ```
 
 ## License
