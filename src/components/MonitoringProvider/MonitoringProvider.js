@@ -1,68 +1,100 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import {setStateServices} from '../../actions'
-import {connect} from 'react-redux'
-import services from "../../reducers";
-
-let timeoutRequest = 0;
-let requestUrl = '/monitoring/list/poll';
+import { MonitoringContext } from '../../context'
 
 class MonitoringProvider extends Component {
   static propTypes = {
+    children: PropTypes.node,
+    listURL: PropTypes.string,
     pollURL: PropTypes.string,
-    listURL: PropTypes.string
+    reconnectTimeout: PropTypes.number
+  };
+
+  static defaultProps = {
+    listURL: '/monitoring/list',
+    pollURL: '/monitoring/list/poll',
+    reconnectTimeout: 10000,
+    children: null
+  };
+
+  constructor(props) {
+    super(props)
+    this.startMonitoring = this.startMonitoring.bind(this)
+    this.endMonitoring = this.endMonitoring.bind(this)
+    this.state = {
+      monitoringItems: [],
+      isMonitoring: false,
+      startMonitoring: this.startMonitoring,
+      endMonitoring: this.endMonitoring
+    }
+    this.poll = this.poll.bind(this)
   }
 
-  componentDidMount() {
-    requestUrl = this.props.listURL ? this.props.listURL : '/monitoring/list'
-    // setTimeout(this.run(this.props.listURL ? this.props.listURL : '/monitoring/list').bind(this), timeoutRequest);
-    setTimeout(this.run.bind(this), timeoutRequest);
+  startMonitoring() {
+    if (!this.state.isMonitoring) {
+      this.setState({
+        isMonitoring: true
+      })
+
+      this.templateFetch(this.props.listURL)
+        .then(this.poll)
+        .catch(() => {
+          setTimeout(this.startMonitoring, this.props.reconnectTimeout)
+        })
+    }
   }
 
-  run() { this.requestPoll() }
+  endMonitoring() {
+    this.setState({
+      isMonitoring: false
+    })
+  }
 
-  requestPoll() {
-    fetch(requestUrl)
-      .then(response => {
-        if(response.status !== 200) {
-          timeoutRequest = 10000
-          // console.log('Then failed', response);
-          // console.log('timeoutRequest: ', timeoutRequest);
+  poll() {
+    if (this.state.isMonitoring) {
+      return this.templateFetch(this.props.pollURL)
+        .then(this.poll)
+        .catch(this.poll)
+    }
+  }
+
+  templateFetch(url) {
+    // eslint-disable-next-line
+    return fetch(url)
+      .then((response) => {
+        if (response.status !== 200) {
+          // eslint-disable-next-line
+          return Promise.reject();
         }
-        else return response.json()
+        return response.json()
       })
-      .then(data => {
-        // this.successfullyPoll(data)
-        data ? this.props.setStateServices({servicesState: data}) : this.props.setStateServices({servicesState: []})
-        requestUrl = this.props.pollURL ? this.props.pollURL : '/monitoring/list/poll'
-        timeoutRequest = 0
-        // console.log('Then successfully', response);
-        // console.log('timeoutRequest: ', timeoutRequest);
+      .then(monitoringItems => {
+        if (this.state.isMonitoring) {
+          this.setState({
+            monitoringItems
+          })
+        }
+        return Promise.resolve()
       })
-      .catch(error => { timeoutRequest = 10000; this.faildPoll(error); })
-      // .finally(()=> setTimeout(this.run(this.props.pollURL ? this.props.pollURL : '/monitoring/list/poll').bind(this), timeoutRequest))
-      .finally(()=> setTimeout(this.run.bind(this), timeoutRequest))
-
-  }
-
-  successfullyPoll(data) {
-    // console.log('Request successful', data)
-    // this.props.setStateServices({servicesState: data})
-    // this.requestPoll(this.props.pollURL ? this.props.pollURL : '/monitoring/list/poll')
-  }
-
-  faildPoll(error) {
-    // console.log('catch failed', error)
-    // console.log('timeoutRequest: ', timeoutRequest);
+      .catch(() => {
+        // eslint-disable-next-line prefer-promise-reject-errors
+        return Promise.reject()
+      })
   }
 
   render() {
-    return this.props.children
+    const {
+      children
+    } = this.props
+
+    return (
+      <MonitoringContext.Provider
+        value={this.state}
+      >
+        {children}
+      </MonitoringContext.Provider>
+    )
   }
 }
 
-const mapStateToProps = (store) => ({
-  servicesStateStore: store.services
-})
-
-export default connect(mapStateToProps, {setStateServices})(MonitoringProvider)
+export default MonitoringProvider

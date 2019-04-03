@@ -1,32 +1,35 @@
 import React, { Component } from 'react'
+import { Button } from 'antd'
+import { MonitoringProvider, MonitoringContext, DefaultMonitoringManager } from 'monitoring-ui'
+import 'antd/dist/antd.css'
 
-import { Monitoring, MonitoringProvider, CheckVisibleItem } from 'monitoring-ui'
-
-import {Menu} from 'antd'
-import {connect} from "react-redux";
+let isStarted = false
 
 class App extends Component {
-    componentDidMount() {
-        // MonitoringConnect()
-    }
   render () {
     return (
-        <MonitoringProvider listURL ='/monitoring/list'>
-          <div>
-            <Menu>
-              { CheckVisibleItem(this.props.servicesStateStore.servicesState, [['statement', 'protocol'], ['reports', 'reglament']])
-                ? <Menu.Item> Two </Menu.Item>
-                  : null }
-              {/*</CheckVisibleItem>*/}
-            </Menu>
-            <Monitoring />
-          </div>
-        </MonitoringProvider>
+      <MonitoringProvider>
+        <MonitoringContext.Consumer>
+          {({ monitoringItems, isMonitoring, startMonitoring, endMonitoring }) => {
+            if (!isStarted) {
+              // безусловно не лучшая идея запускать мониторинг таким образом
+              // обычно start/end monitoring частью props какого-нибудь компонента
+              // например компонента ответственного за авторизацию
+              startMonitoring()
+              isStarted = true
+            };
+            return (
+              <DefaultMonitoringManager>
+                <Button>
+                  Показать
+                </Button>
+              </DefaultMonitoringManager>
+            )
+          }}
+        </MonitoringContext.Consumer>
+      </MonitoringProvider>
     )
   }
 }
-const mapStateToProps = (store) => ({
-    servicesStateStore: store.services
-})
 
-export default connect(mapStateToProps)(App)
+export default App
