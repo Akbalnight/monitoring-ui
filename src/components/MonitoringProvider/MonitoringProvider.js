@@ -11,8 +11,8 @@ class MonitoringProvider extends Component {
   };
 
   static defaultProps = {
-    listURL: '/monitoring/list',
-    pollURL: '/monitoring/list/poll',
+    listURL: '/monitoring/monitoring/list',
+    pollURL: '/monitoring/monitoring/list/poll',
     reconnectTimeout: 10000,
     children: null
   };
