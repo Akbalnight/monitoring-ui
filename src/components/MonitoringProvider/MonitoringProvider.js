@@ -54,7 +54,9 @@ class MonitoringProvider extends Component {
     if (this.state.isMonitoring) {
       return this.templateFetch(this.props.pollURL)
         .then(this.poll)
-        .catch(this.poll)
+        .catch(() => {
+          setTimeout(this.poll, this.props.reconnectTimeout)
+        })
     }
   }
 
