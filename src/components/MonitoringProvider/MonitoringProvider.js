@@ -80,6 +80,9 @@ class MonitoringProvider extends Component {
       })
       .catch(() => {
         // eslint-disable-next-line prefer-promise-reject-errors
+      	if (this.state.isMonitoring) {
+          this.setState({ monitoringItems: [] })
+        }
         return Promise.reject()
       })
   }
